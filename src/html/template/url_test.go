@@ -100,8 +100,8 @@ func TestSrcsetFilter(t *testing.T) {
 		},
 		{
 			"one ok with metadata",
-			" /img.png 200w",
-			" /img.png 200w",
+			" /print_run_command.png 200w",
+			" /print_run_command.png 200w",
 		},
 		{
 			"one bad",

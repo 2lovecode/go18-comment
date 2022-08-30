@@ -2108,6 +2108,8 @@ func (b *Builder) runOut(a *Action, dir string, env []string, cmdargs ...any) ([
 	}
 
 	var buf bytes.Buffer
+	// 在这里调用各种编译，链接等工具
+	// println(cmdline[0])
 	cmd := exec.Command(cmdline[0], cmdline[1:]...)
 	if cmd.Path != "" {
 		cmd.Args[0] = cmd.Path

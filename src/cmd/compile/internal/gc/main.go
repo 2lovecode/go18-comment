@@ -53,6 +53,10 @@ func handlePanic() {
 // Main parses flags and Go source files specified in the command-line
 // arguments, type-checks the parsed Go package, compiles functions to machine
 // code, and finally writes the compiled package definition to disk.
+// 解析在命令行参数里指定的标识和go源文件
+// 对已解析的go包进行类型检查
+// 把函数编译成机器码
+// 最终将已经编译过的包写入磁盘
 func Main(archInit func(*ssagen.ArchInfo)) {
 	base.Timer.Start("fe", "init")
 
