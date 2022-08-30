@@ -344,6 +344,9 @@ func okOffset(offset int64) int64 {
 // worker indicates which of the backend workers is doing the processing.
 func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	name := ir.FuncName(fn)
+	if name == "main" {
+		println("xxx build ssa function name: ", name)
+	}
 	printssa := false
 	if ssaDump != "" { // match either a simple name e.g. "(*Reader).Reset", package.name e.g. "compress/gzip.(*Reader).Reset", or subpackage name "gzip.(*Reader).Reset"
 		pkgDotName := base.Ctxt.Pkgpath + "." + name
