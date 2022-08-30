@@ -45,6 +45,7 @@ func main() {
 	log.SetFlags(0)
 	log.SetPrefix("compile: ")
 
+	//println("compile")
 	buildcfg.Check()
 	archInit, ok := archInits[buildcfg.GOARCH]
 	if !ok {

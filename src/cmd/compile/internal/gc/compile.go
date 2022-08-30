@@ -144,6 +144,8 @@ func compileFunctions() {
 	}
 
 	var wg sync.WaitGroup
+
+	// 开始编译
 	var compile func([]*ir.Func)
 	compile = func(fns []*ir.Func) {
 		wg.Add(len(fns))

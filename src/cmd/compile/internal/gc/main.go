@@ -62,6 +62,9 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	defer handlePanic()
 
+	// 初始化一些系统架构相关信息
+	//
+
 	archInit(&ssagen.Arch)
 
 	base.Ctxt = obj.Linknew(ssagen.Arch.LinkArch)
@@ -73,6 +76,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// on Darwin don't support it properly, especially since macOS 10.14 (Mojave).  This is exposed as a flag
 	// to allow testing with LLVM tools on Linux, and to help with reporting this bug to the LLVM project.
 	// See bugs 31188 and 21945 (CLs 170638, 98075, 72371).
+	// UseBASEntries 是首选，因为它可以节省大约 2% 的构建时间，但是 Darwin 上的 LLDB、dsymutil 和 dwarfdump 不能正确支持它，尤其是从 macOS 10.14 (Mojave) 开始。 这作为一个标志公开，以允许在 Linux 上使用 LLVM 工具进行测试，并帮助将此错误报告给 LLVM 项目。 请参阅错误 31188 和 21945（CL 170638、98075、72371）。
 	base.Ctxt.UseBASEntries = base.Ctxt.Headtype != objabi.Hdarwin
 
 	types.LocalPkg = types.NewPkg("", "")
@@ -95,6 +99,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// separate package to avoid conflicts with package runtime's
 	// actual declarations, which may differ intentionally but
 	// insignificantly.
+	// 包含编译器对包运行时的内置声明的伪包。 这些是在单独的包中声明的，以避免与包运行时的实际声明发生冲突，这些声明可能有意但无关紧要。
 	ir.Pkgs.Runtime = types.NewPkg("go.runtime", "runtime")
 	ir.Pkgs.Runtime.Prefix = "runtime"
 
@@ -121,6 +126,10 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	//	default: inlining on.  (Flag.LowerL == 1)
 	//	-l: inlining off  (Flag.LowerL == 0)
 	//	-l=2, -l=3: inlining on again, with extra debugging (Flag.LowerL > 1)
+	// 启用内联（在 RecordFlags 之后，以避免记录重写的 -l）。 目前：
+	// 默认值：内联。 （标志.LowerL == 1）
+	//	-l：内联关闭（Flag.LowerL == 0）
+	//	-l=2, -l=3: 再次内联，额外调试 (Flag.LowerL > 1)
 	if base.Flag.LowerL <= 1 {
 		base.Flag.LowerL = 1 - base.Flag.LowerL
 	}
@@ -150,6 +159,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		symABIs.ReadSymABIs(base.Flag.SymABIs)
 	}
 
+	// 是否在编译中
 	if base.Compiling(base.NoInstrumentPkgs) {
 		base.Flag.Race = false
 		base.Flag.MSan = false
@@ -222,6 +232,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	// Eliminate some obviously dead code.
 	// Must happen after typechecking.
+	// 去除死代码？？？
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			deadcode.Func(n.(*ir.Func))
@@ -246,6 +257,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 
 	// Inlining
+	// 内联
 	base.Timer.Start("fe", "inlining")
 	if base.Flag.LowerL != 0 {
 		inline.InlinePackage()
@@ -253,6 +265,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	noder.MakeWrappers(typecheck.Target) // must happen after inlining
 
 	// Devirtualize.
+	// 去虚拟化
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			devirtualize.Func(n.(*ir.Func))
@@ -311,6 +324,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 	base.Timer.AddEvent(fcount, "funcs")
 
+	// 编译
 	compileFunctions()
 
 	if base.Flag.CompilingRuntime {
