@@ -1,3 +1,22 @@
+# Golang1.18 中文注释版
+
+### 说明
+新增example目录,存放golang程序源代码
+
+编译
+cd src
+./make.bash
+
+将编辑器的GOROOT设置为path/to/go18-comment
+
+运行
+../bin/go run ../example/hello.go
+
+
+
+
+--------
+
 # The Go Programming Language
 
 Go is an open source programming language that makes it easy to build simple,
