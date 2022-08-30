@@ -3,14 +3,15 @@
 ### 说明
 新增example目录,存放golang程序源代码
 
-编译
-cd src
-./make.bash
+### 编译运行
 
-将编辑器的GOROOT设置为path/to/go18-comment
-
-运行
-../bin/go run ../example/hello.go
+ 1. 编译
+    - cd src
+    - ./make.bash
+ 2. 设置GOROOT
+    - 将编辑器的GOROOT设置为path/to/go18-comment
+ 3. 运行
+    - ../bin/go run ../example/hello.go
 
 
 
