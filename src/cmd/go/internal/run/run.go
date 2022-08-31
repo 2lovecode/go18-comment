@@ -160,6 +160,7 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 	} else {
 		p.Internal.ExeName = path.Base(p.ImportPath)
 	}
+	//println("xxx package: ", p)
 
 	a1 := b.LinkAction(work.ModeBuild, work.ModeBuild, p)
 	a := &work.Action{Mode: "go run", Func: buildRunProgram, Args: cmdArgs, Deps: []*work.Action{a1}}

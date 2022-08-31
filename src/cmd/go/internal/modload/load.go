@@ -692,6 +692,7 @@ func pathInModuleCache(ctx context.Context, dir string, rs *Requirements) string
 //
 // TODO(bcmills): Silencing errors seems off. Take a closer look at this and
 // figure out what the error-reporting actually ought to be.
+// 向构建列表添加源文件中需要导入的模块
 func ImportFromFiles(ctx context.Context, gofiles []string) {
 	rs := LoadModFile(ctx)
 

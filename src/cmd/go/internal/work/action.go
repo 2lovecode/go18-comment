@@ -34,7 +34,7 @@ import (
 // build packages in parallel, and the builder is shared.
 type Builder struct {
 	WorkDir     string               // the temporary work directory (ends in filepath.Separator)
-	actionCache map[cacheKey]*Action // a cache of already-constructed actions
+	actionCache map[cacheKey]*Action // a cache of already-constructed actions  已构建Action的缓存
 	mkdirCache  map[string]bool      // a cache of created directories
 	flagCache   map[[2]string]bool   // a cache of supported compiler flags
 	Print       func(args ...any) (int, error)
@@ -366,6 +366,7 @@ func readpkglist(shlibpath string) (pkgs []*load.Package) {
 // TODO(rsc): Change the second key from *load.Package to interface{},
 // to make the caching in linkShared less awkward?
 func (b *Builder) cacheAction(mode string, p *load.Package, f func() *Action) *Action {
+	//println("xxx mode: ", mode, " package: ", p)
 	a := b.actionCache[cacheKey{mode, p}]
 	if a == nil {
 		a = f()

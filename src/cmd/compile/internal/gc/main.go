@@ -192,6 +192,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	types.RegSize = ssagen.Arch.LinkArch.RegSize
 	types.MaxWidth = ssagen.Arch.MAXWIDTH
 
+	//AST结果？？？
 	typecheck.Target = new(ir.Package)
 
 	typecheck.NeedRuntimeType = reflectdata.NeedRuntimeType // TODO(rsc): TypeSym for lock?

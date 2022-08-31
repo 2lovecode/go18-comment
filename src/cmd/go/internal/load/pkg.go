@@ -2901,6 +2901,7 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 	// to make it look like this is a standard package or
 	// command directory. So that local imports resolve
 	// consistently, the files must all be in the same directory.
+	// 合成只显示命名文件的假“目录”，使其看起来像一个标准的包或命令目录。 为了一致地解析本地导入，文件必须全部位于同一目录中。
 	var dirent []fs.FileInfo
 	var dir string
 	for _, file := range gofiles {
