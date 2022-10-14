@@ -54,6 +54,7 @@ func DumpInline(fn *ir.Func) {
 func InitEnv() {
 	ssaDump = os.Getenv("GOSSAFUNC")
 	ssaDir = os.Getenv("GOSSADIR")
+	println("ssaDump: ", ssaDump, "ssaDir:", ssaDir)
 	if ssaDump != "" {
 		if strings.HasSuffix(ssaDump, "+") {
 			ssaDump = ssaDump[:len(ssaDump)-1]
@@ -3814,12 +3815,14 @@ func InitTables() {
 	}
 
 	// add adds the intrinsic b for pkg.fn for the given list of architectures.
+	// 给不同的架构注入不同的包
 	add := func(pkg, fn string, b intrinsicBuilder, archs ...*sys.Arch) {
 		for _, a := range archs {
 			intrinsics[intrinsicKey{a, pkg, fn}] = b
 		}
 	}
 	// addF does the same as add but operates on architecture families.
+	// 和add方法相同，不同的是对架构族进行操作
 	addF := func(pkg, fn string, b intrinsicBuilder, archFamilies ...sys.ArchFamily) {
 		m := 0
 		for _, f := range archFamilies {
@@ -4703,6 +4706,12 @@ func InitTables() {
 			return s.newValue2(ssa.OpMul64uhilo, types.NewTuple(types.Types[types.TUINT64], types.Types[types.TUINT64]), args[0], args[1])
 		},
 		sys.ArchAMD64, sys.ArchARM64, sys.ArchPPC64LE, sys.ArchPPC64, sys.ArchS390X)
+
+	//println("table start")
+	//for k, v := range intrinsics {
+	//	println("k: ", k.pkg, k.fn, k.arch.Name, "v:", v)
+	//}
+	//println("table end")
 }
 
 // findIntrinsic returns a function which builds the SSA equivalent of the

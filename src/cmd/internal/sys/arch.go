@@ -8,6 +8,7 @@ import "encoding/binary"
 
 // ArchFamily represents a family of one or more related architectures.
 // For example, ppc64 and ppc64le are both members of the PPC64 family.
+// ArchFamily代表一个或多个相关联的架构族 即 多个Arch会同属一个ArchFamily
 type ArchFamily byte
 
 const (
@@ -26,6 +27,7 @@ const (
 )
 
 // Arch represents an individual architecture.
+// Arch代表单个架构
 type Arch struct {
 	Name   string
 	Family ArchFamily

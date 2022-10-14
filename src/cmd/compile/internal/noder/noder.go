@@ -64,6 +64,7 @@ func LoadPackage(filenames []string) {
 			}
 			defer f.Close()
 
+			// 词法和语法解析并生成抽象语法树
 			p.file, _ = syntax.Parse(fbase, f, p.error, p.pragma, mode) // errors are tracked via p.error
 		}()
 	}

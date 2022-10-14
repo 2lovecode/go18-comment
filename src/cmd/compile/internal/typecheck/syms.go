@@ -65,6 +65,8 @@ func Lookup(name string) *types.Sym {
 // InitRuntime loads the definitions for the low-level runtime functions,
 // so that the compiler can generate calls to them,
 // but does not make them visible to user code.
+// 加载一些底层运行时方法，方便编译器调用。
+// 但是这些方法对用户代码是不可见的。
 func InitRuntime() {
 	base.Timer.Start("fe", "loadsys")
 	types.Block = 1
